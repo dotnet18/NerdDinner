@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Data.Entity.Metadata;
 using Microsoft.Data.Entity.Migrations;
+using Microsoft.Data.Entity.Metadata;
 
-namespace NerdDinner.Web.Migrations
+namespace NerdDinner.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class migratemodelchanges : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,6 +45,26 @@ namespace NerdDinner.Web.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ApplicationUser", x => x.Id);
+                });
+            migrationBuilder.CreateTable(
+                name: "Dinner",
+                columns: table => new
+                {
+                    DinnerId = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Address = table.Column<string>(nullable: false),
+                    ContactPhone = table.Column<string>(nullable: false),
+                    Country = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: false),
+                    EventDate = table.Column<DateTime>(nullable: false),
+                    Latitude = table.Column<double>(nullable: false),
+                    Longitude = table.Column<double>(nullable: false),
+                    Title = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dinner", x => x.DinnerId);
                 });
             migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
@@ -125,6 +143,24 @@ namespace NerdDinner.Web.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                 });
+            migrationBuilder.CreateTable(
+                name: "Rsvp",
+                columns: table => new
+                {
+                    RsvpId = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DinnerId = table.Column<long>(nullable: false),
+                    UserName = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rsvp", x => x.RsvpId);
+                    table.ForeignKey(
+                        name: "FK_Rsvp_Dinner_DinnerId",
+                        column: x => x.DinnerId,
+                        principalTable: "Dinner",
+                        principalColumn: "DinnerId");
+                });
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
@@ -145,8 +181,10 @@ namespace NerdDinner.Web.Migrations
             migrationBuilder.DropTable("AspNetUserClaims");
             migrationBuilder.DropTable("AspNetUserLogins");
             migrationBuilder.DropTable("AspNetUserRoles");
+            migrationBuilder.DropTable("Rsvp");
             migrationBuilder.DropTable("AspNetRoles");
             migrationBuilder.DropTable("AspNetUsers");
+            migrationBuilder.DropTable("Dinner");
         }
     }
 }

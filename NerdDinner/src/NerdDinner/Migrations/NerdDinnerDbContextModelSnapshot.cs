@@ -1,22 +1,19 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Infrastructure;
 using Microsoft.Data.Entity.Metadata;
 using Microsoft.Data.Entity.Migrations;
-using NerdDinner.Web.Models;
+using NerdDinner.Web.Persistence;
 
-namespace NerdDinner.Web.Migrations
+namespace NerdDinner.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(NerdDinnerDbContext))]
+    partial class NerdDinnerDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .Annotation("ProductVersion", "7.0.0-beta8")
+                .Annotation("ProductVersion", "7.0.0-beta8-15964")
                 .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRole", b =>
@@ -146,6 +143,56 @@ namespace NerdDinner.Web.Migrations
                     b.Annotation("Relational:TableName", "AspNetUsers");
                 });
 
+            modelBuilder.Entity("NerdDinner.Web.Models.Dinner", b =>
+                {
+                    b.Property<long>("DinnerId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .Annotation("MaxLength", 256);
+
+                    b.Property<string>("ContactPhone")
+                        .IsRequired()
+                        .Annotation("MaxLength", 32);
+
+                    b.Property<string>("Country")
+                        .Annotation("MaxLength", 64);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .Annotation("MaxLength", 1024);
+
+                    b.Property<DateTime>("EventDate");
+
+                    b.Property<double>("Latitude");
+
+                    b.Property<double>("Longitude");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .Annotation("MaxLength", 64);
+
+                    b.Property<string>("UserName")
+                        .Annotation("MaxLength", 64);
+
+                    b.HasKey("DinnerId");
+                });
+
+            modelBuilder.Entity("NerdDinner.Web.Models.Rsvp", b =>
+                {
+                    b.Property<long>("RsvpId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long>("DinnerId");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .Annotation("MaxLength", 64);
+
+                    b.HasKey("RsvpId");
+                });
+
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNet.Identity.EntityFramework.IdentityRole")
@@ -176,6 +223,13 @@ namespace NerdDinner.Web.Migrations
                     b.HasOne("NerdDinner.Web.Models.ApplicationUser")
                         .WithMany()
                         .ForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("NerdDinner.Web.Models.Rsvp", b =>
+                {
+                    b.HasOne("NerdDinner.Web.Models.Dinner")
+                        .WithMany()
+                        .ForeignKey("DinnerId");
                 });
         }
     }
