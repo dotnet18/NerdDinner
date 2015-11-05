@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NerdDinner.ViewModels.Manage
+namespace NerdDinner.Web.ViewModels.Manage
 {
     public class AddPhoneNumberViewModel
     {

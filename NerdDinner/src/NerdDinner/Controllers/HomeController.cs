@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
 
-namespace NerdDinner.Controllers
+namespace NerdDinner.Web.Controllers
 {
     public class HomeController : Controller
     {

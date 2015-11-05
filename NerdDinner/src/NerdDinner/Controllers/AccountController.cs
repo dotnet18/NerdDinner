@@ -8,11 +8,11 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
-using NerdDinner.Models;
-using NerdDinner.Services;
-using NerdDinner.ViewModels.Account;
+using NerdDinner.Web.Models;
+using NerdDinner.Web.Services;
+using NerdDinner.Web.ViewModels.Account;
 
-namespace NerdDinner.Controllers
+namespace NerdDinner.Web.Controllers
 {
     [Authorize]
     public class AccountController : Controller

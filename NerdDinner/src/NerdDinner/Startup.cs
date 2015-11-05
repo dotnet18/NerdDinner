@@ -15,8 +15,8 @@ using Microsoft.Dnx.Runtime;
 using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
-using NerdDinner.Models;
-using NerdDinner.Services;
+using NerdDinner.Web.Models;
+using NerdDinner.Web.Services;
 
 namespace NerdDinner
 {

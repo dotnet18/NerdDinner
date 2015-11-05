@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc.Rendering;
 
-namespace NerdDinner.ViewModels.Manage
+namespace NerdDinner.Web.ViewModels.Manage
 {
     public class ConfigureTwoFactorViewModel
     {

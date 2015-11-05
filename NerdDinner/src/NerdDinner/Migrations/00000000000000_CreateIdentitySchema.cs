@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Data.Entity.Metadata;
 using Microsoft.Data.Entity.Migrations;
 
-namespace NerdDinner.Migrations
+namespace NerdDinner.Web.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

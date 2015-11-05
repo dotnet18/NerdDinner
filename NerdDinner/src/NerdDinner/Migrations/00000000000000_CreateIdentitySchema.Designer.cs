@@ -6,9 +6,9 @@ using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Infrastructure;
 using Microsoft.Data.Entity.Metadata;
 using Microsoft.Data.Entity.Migrations;
-using NerdDinner.Models;
+using NerdDinner.Web.Models;
 
-namespace NerdDinner.Migrations
+namespace NerdDinner.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("00000000000000_CreateIdentitySchema")]
@@ -99,7 +99,7 @@ namespace NerdDinner.Migrations
                     b.Annotation("Relational:TableName", "AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("NerdDinner.Models.ApplicationUser", b =>
+            modelBuilder.Entity("NerdDinner.Web.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id");
 
@@ -156,14 +156,14 @@ namespace NerdDinner.Migrations
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("NerdDinner.Models.ApplicationUser")
+                    b.HasOne("NerdDinner.Web.Models.ApplicationUser")
                         .WithMany()
                         .ForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("NerdDinner.Models.ApplicationUser")
+                    b.HasOne("NerdDinner.Web.Models.ApplicationUser")
                         .WithMany()
                         .ForeignKey("UserId");
                 });
@@ -174,7 +174,7 @@ namespace NerdDinner.Migrations
                         .WithMany()
                         .ForeignKey("RoleId");
 
-                    b.HasOne("NerdDinner.Models.ApplicationUser")
+                    b.HasOne("NerdDinner.Web.Models.ApplicationUser")
                         .WithMany()
                         .ForeignKey("UserId");
                 });
