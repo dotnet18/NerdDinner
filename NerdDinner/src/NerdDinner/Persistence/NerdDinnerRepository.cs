@@ -81,7 +81,7 @@ namespace NerdDinner.Web.Persistence
         {
             return await _database.Dinners
                 .Include(d => d.Rsvps)
-                //.OrderByDescending(d => d.Rsvps.Count)
+                //.OrderByDescending(d => d.Rsvps.Count)   EF7 BUG IN BETA ACCORDING TO ROMAN
                 .Take(8)
                 .ToListAsync();
         }
