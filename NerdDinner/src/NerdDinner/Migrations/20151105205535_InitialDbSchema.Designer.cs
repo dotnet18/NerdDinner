@@ -8,8 +8,8 @@ using NerdDinner.Web.Persistence;
 namespace NerdDinner.Migrations
 {
     [DbContext(typeof(NerdDinnerDbContext))]
-    [Migration("20151105203212_migrate model changes")]
-    partial class migratemodelchanges
+    [Migration("20151105205535_InitialDbSchema")]
+    partial class InitialDbSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

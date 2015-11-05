@@ -5,7 +5,7 @@ using Microsoft.Data.Entity.Metadata;
 
 namespace NerdDinner.Migrations
 {
-    public partial class migratemodelchanges : Migration
+    public partial class InitialDbSchema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

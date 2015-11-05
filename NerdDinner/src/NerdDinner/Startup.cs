@@ -159,6 +159,8 @@ namespace NerdDinner
                 // Uncomment the following line to add a route for porting Web API 2 controllers.
                 // routes.MapWebApiRoute("DefaultApi", "api/{controller}/{id?}");
             });
+
+            //SampleData.InitializeNerdDinner(app.ApplicationServices).Wait();
         }
     }
 }
