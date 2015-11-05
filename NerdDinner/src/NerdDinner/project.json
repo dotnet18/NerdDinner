@@ -1,10 +1,11 @@
-﻿{
+{
   "webroot": "wwwroot",
   "userSecretsId": "aspnet5-NerdDinner-ae1b4329-208f-45bb-a2bd-a60209f8ee51",
   "version": "1.0.0-*",
 
   "dependencies": {
     "EntityFramework.Commands": "7.0.0-beta8",
+    "EntityFramework.Core": "7.0.0-beta8",
     "EntityFramework.SqlServer": "7.0.0-beta8",
     "Microsoft.AspNet.Authentication.Cookies": "1.0.0-beta8",
     "Microsoft.AspNet.Authentication.Facebook": "1.0.0-beta8",
@@ -25,7 +26,7 @@
     "Microsoft.Framework.Configuration.UserSecrets": "1.0.0-beta8",
     "Microsoft.Framework.Logging": "1.0.0-beta8",
     "Microsoft.Framework.Logging.Console": "1.0.0-beta8",
-    "Microsoft.Framework.Logging.Debug" : "1.0.0-beta8",
+    "Microsoft.Framework.Logging.Debug": "1.0.0-beta8",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-beta8"
   },
 

@@ -11,6 +11,7 @@ using Microsoft.Data.Entity;
 using NerdDinner.Web.Models;
 using NerdDinner.Web.Services;
 using NerdDinner.Web.ViewModels.Account;
+using NerdDinner.Web.Persistence;
 
 namespace NerdDinner.Web.Controllers
 {
@@ -21,7 +22,7 @@ namespace NerdDinner.Web.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
-        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly NerdDinnerDbContext _applicationDbContext;
         private static bool _databaseChecked;
 
         public AccountController(
@@ -29,13 +30,20 @@ namespace NerdDinner.Web.Controllers
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ApplicationDbContext applicationDbContext)
+            NerdDinnerDbContext applicationDbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _applicationDbContext = applicationDbContext;
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public string IsUserAuthenticated()
+        {
+            return User.Identity.IsAuthenticated.ToString();
         }
 
         //
@@ -438,7 +446,7 @@ namespace NerdDinner.Web.Controllers
         // not yet supported in this release.
         // Please see this http://go.microsoft.com/fwlink/?LinkID=615859 for more information on how to do deploy the database
         // when publishing your application.
-        private static void EnsureDatabaseCreated(ApplicationDbContext context)
+        private static void EnsureDatabaseCreated(NerdDinnerDbContext context)
         {
             if (!_databaseChecked)
             {

@@ -10,13 +10,19 @@ using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.Mvc.Formatters;
 using Microsoft.Data.Entity;
 using Microsoft.Dnx.Runtime;
 using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
+using NerdDinner.Web.Common;
 using NerdDinner.Web.Models;
+using NerdDinner.Web.Persistence;
 using NerdDinner.Web.Services;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace NerdDinner
 {
@@ -49,22 +55,40 @@ namespace NerdDinner
             // Add Entity Framework services to the services container.
             services.AddEntityFramework()
                 .AddSqlServer()
-                .AddDbContext<ApplicationDbContext>(options =>
+                .AddDbContext<NerdDinnerDbContext>(options =>
                     options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+
+            services.AddScoped<INerdDinnerRepository, NerdDinnerRepository>();
 
             // Add Identity services to the services container.
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddEntityFrameworkStores<NerdDinnerDbContext>()
                 .AddDefaultTokenProviders();
 
             // Add MVC services to the services container.
-            services.AddMvc();
+            //services.AddMvc();
+            services.AddMvc(options =>
+            {
+                var settings = new JsonSerializerSettings()
+                {
+                    Formatting = Formatting.Indented,
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                };
+
+                var formatter = new JsonOutputFormatter { SerializerSettings = settings };
+
+                options.OutputFormatters.Insert(0, formatter);
+
+                // Add validation filters
+                options.Filters.Add(new ValidateModelFilterAttribute());
+            });
 
             // Uncomment the following line to add Web API services which makes it easier to port Web API 2 controllers.
             // You will also need to add the Microsoft.AspNet.Mvc.WebApiCompatShim package to the 'dependencies' section of project.json.
             // services.AddWebApiConventions();
 
             // Register application services.
+            //TODO: to be removed
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
         }
