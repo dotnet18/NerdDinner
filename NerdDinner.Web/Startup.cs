@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNet.Authentication.Facebook;
-using Microsoft.AspNet.Authentication.MicrosoftAccount;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Diagnostics;
+﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Diagnostics.Entity;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Mvc;
-using Microsoft.Data.Entity;
-using Microsoft.Framework.ConfigurationModel;
+using Microsoft.AspNet.Mvc.Formatters;
+using Microsoft.Framework.Configuration;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.Framework.Logging;
 using NerdDinner.Web.Common;
@@ -15,6 +12,8 @@ using NerdDinner.Web.Models;
 using NerdDinner.Web.Persistence;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Data.Entity;
+using Microsoft.Dnx.Runtime;
 
 namespace NerdDinner.Web
 {
@@ -23,7 +22,7 @@ namespace NerdDinner.Web
         public Startup(IHostingEnvironment env)
         {
             // Setup configuration sources.
-            var configuration = new Configuration()
+            var configuration = new ConfigurationBuilder()
                 .AddJsonFile("config.json")
                 .AddJsonFile($"config.{env.EnvironmentName}.json", optional: true);
 
@@ -32,7 +31,7 @@ namespace NerdDinner.Web
                 configuration.AddUserSecrets();
             }
             configuration.AddEnvironmentVariables();
-            Configuration = configuration;
+            Configuration = configuration.Build();
         }
 
         public IConfiguration Configuration { get; set; }
@@ -53,23 +52,23 @@ namespace NerdDinner.Web
                 .AddEntityFrameworkStores<NerdDinnerDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.ConfigureFacebookAuthentication(options =>
-            {
-                options.ClientId = Configuration["Authentication:Facebook:AppId"];
-                options.ClientSecret = Configuration["Authentication:Facebook:AppSecret"];
-            });
+            //services.ConfigureFacebookAuthentication(options =>
+            //{
+            //    options.ClientId = Configuration["Authentication:Facebook:AppId"];
+            //    options.ClientSecret = Configuration["Authentication:Facebook:AppSecret"];
+            //});
 
-            services.ConfigureGoogleAuthentication(options =>
-            {
-                options.ClientId = Configuration["Authentication:Google:AppId"];
-                options.ClientSecret = Configuration["Authentication:Google:AppSecret"];
-            });
+            //services.ConfigureGoogleAuthentication(options =>
+            //{
+            //    options.ClientId = Configuration["Authentication:Google:AppId"];
+            //    options.ClientSecret = Configuration["Authentication:Google:AppSecret"];
+            //});
 
-            services.ConfigureTwitterAuthentication(options =>
-            {
-                options.ConsumerKey = Configuration["Authentication:Twitter:AppId"];
-                options.ConsumerSecret = Configuration["Authentication:Twitter:AppSecret"];
-            });
+            //services.ConfigureTwitterAuthentication(options =>
+            //{
+            //    options.ConsumerKey = Configuration["Authentication:Twitter:AppId"];
+            //    options.ConsumerSecret = Configuration["Authentication:Twitter:AppSecret"];
+            //});
 
             //services.ConfigureMicrosoftAccountAuthentication(options =>
             //{
@@ -105,21 +104,37 @@ namespace NerdDinner.Web
             loggerfactory.AddConsole(minLevel: LogLevel.Warning);
 
             // Add the following to the request pipeline only in development environment.
-            if (env.IsEnvironment("Development"))
+            if (env.IsDevelopment())
             {
-                app.UseErrorPage(ErrorPageOptions.ShowAll);
+                app.UseBrowserLink();
+                app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage(DatabaseErrorPageOptions.ShowAll);
             }
             else
             {
-                app.UseErrorHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error");
             }
+
+            // Add the platform handler to the request pipeline.
+            app.UseIISPlatformHandler();
 
             app.UseStaticFiles();
             app.UseIdentity();
 
-            app.UseFacebookAuthentication();
-            app.UseGoogleAuthentication();
+            //app.UseFacebookAuthentication();
+            //app.UseGoogleAuthentication();
+
+            app.UseFacebookAuthentication(options =>
+            {
+                options.AppId = Configuration["Authentication:Facebook:AppId"];
+                options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+            });
+            app.UseGoogleAuthentication(options =>
+            {
+                options.ClientId = Configuration["Authentication:Google:ClientId"];
+                options.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            });
+
             //app.UseMicrosoftAccountAuthentication();
             app.UseTwitterAuthentication();
 
