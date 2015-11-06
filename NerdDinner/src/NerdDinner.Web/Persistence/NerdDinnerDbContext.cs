@@ -14,7 +14,7 @@ namespace NerdDinner.Web.Persistence
 
         public NerdDinnerDbContext()
         {     
-            //Database.EnsureCreatedAsync().Wait();
+            Database.EnsureCreatedAsync().Wait();
         }
     }
 }

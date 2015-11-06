@@ -1,8 +1,9 @@
 [Oo]bj/
 
+NerdDinner/.vscode/
 NerdDinner/src/NerdDinner.Web/.vs/config/applicationhost.config
 NerdDinner/src/NerdDinner.Web/node_modules/
-
+NerdDinner/src/NerdDinner.Web/project.lock.json
 
 # User-specific files
 *.suo
