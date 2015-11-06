@@ -33,3 +33,5 @@ x64/
 *.vssscc
 .builds
 
+/NerdDinner/src/NerdDinner.Web/wwwroot/css/site.min.css
+/NerdDinner/src/NerdDinner.Web/wwwroot/js/site.min.js
