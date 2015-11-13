@@ -16,6 +16,7 @@ namespace NerdDinner.Web.Controllers
     [Authorize]
     public class DinnersController : Controller
     {
+        // This is a comment made on 11/12/2015 by pl.
         private readonly INerdDinnerRepository _repository;
 
         private readonly UserManager<ApplicationUser> _userManager;
